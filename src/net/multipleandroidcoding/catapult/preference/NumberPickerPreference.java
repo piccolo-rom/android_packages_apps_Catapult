@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 The CyanogenMod Project
+ * Copyright (C) 2012 Rashed Abdel-Tawab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import net.multipleandroidcoding.catapult.R;
  * @author nebkat
  */
 
-/*public class NumberPickerPreference extends DialogPreference {
+public class NumberPickerPreference extends DialogPreference {
     private int mMin, mMax, mDefault;
 
     private String mMaxExternalKey, mMinExternalKey;
@@ -105,4 +105,4 @@ import net.multipleandroidcoding.catapult.R;
         }
     }
 
-}*/
+}

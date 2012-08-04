@@ -256,6 +256,18 @@ public class Workspace extends SmoothPagedView
     private float[] mNewRotationYs;
     private float mTransitionProgress;
 
+    public enum TransitionEffect {
+        Standard,
+        Tablet,
+        ZoomIn,
+        ZoomOut,
+        RotateUp,
+        RotateDown,
+        CubeIn,
+        CubeOut,
+        Stack
+    }
+
     /**
      * Used to inflate the Workspace from XML.
      *
@@ -624,7 +636,6 @@ public class Workspace extends SmoothPagedView
      * listener via setOnInterceptTouchEventListener(). This allows us to tell the CellLayout
      * that it should intercept touch events, which is not something that is normally supported.
      */
-    @Override
     public boolean onTouch(View v, MotionEvent event) {
         return (isSmall() || !isFinishedSwitchingState());
     }
@@ -848,7 +859,7 @@ public class Workspace extends SmoothPagedView
 
     protected void setWallpaperDimension() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        mLauncher.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        mLauncher.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         final int maxDim = Math.max(displayMetrics.widthPixels, displayMetrics.heightPixels);
         final int minDim = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
 
@@ -1694,22 +1705,18 @@ public class Workspace extends SmoothPagedView
         return anim;
     }
 
-    @Override
     public void onLauncherTransitionPrepare(Launcher l, boolean animated, boolean toWorkspace) {
         mIsSwitchingState = true;
         cancelScrollingIndicatorAnimations();
     }
 
-    @Override
     public void onLauncherTransitionStart(Launcher l, boolean animated, boolean toWorkspace) {
     }
 
-    @Override
     public void onLauncherTransitionStep(Launcher l, float t) {
         mTransitionProgress = t;
     }
 
-    @Override
     public void onLauncherTransitionEnd(Launcher l, boolean animated, boolean toWorkspace) {
         mIsSwitchingState = false;
         mWallpaperOffset.setOverrideHorizontalCatchupConstant(false);
@@ -1726,7 +1733,6 @@ public class Workspace extends SmoothPagedView
         }
     }
 
-    @Override
     public View getContent() {
         return this;
     }
@@ -2292,7 +2298,6 @@ public class Workspace extends SmoothPagedView
             // Prepare it to be animated into its new position
             // This must be called after the view has been re-parented
             final Runnable onCompleteRunnable = new Runnable() {
-                @Override
                 public void run() {
                     mAnimatingViewIntoPlace = false;
                     updateChildrenLayersEnabled();
@@ -2983,7 +2988,6 @@ public class Workspace extends SmoothPagedView
     private void onDropExternal(final int[] touchXY, final Object dragInfo,
             final CellLayout cellLayout, boolean insertAtFirst, DragObject d) {
         final Runnable exitSpringLoadedRunnable = new Runnable() {
-            @Override
             public void run() {
                 mLauncher.exitSpringLoadedDragModeDelayed(true, false, null);
             }
@@ -3039,7 +3043,6 @@ public class Workspace extends SmoothPagedView
             }
 
             Runnable onAnimationCompleteRunnable = new Runnable() {
-                @Override
                 public void run() {
                     // When dragging and dropping from customization tray, we deal with creating
                     // widgets/shortcuts/folders in a slightly different way
@@ -3237,7 +3240,6 @@ public class Workspace extends SmoothPagedView
             }
 
             Runnable onComplete = new Runnable() {
-                @Override
                 public void run() {
                     if (finalView != null) {
                         finalView.setVisibility(VISIBLE);
@@ -3377,17 +3379,14 @@ public class Workspace extends SmoothPagedView
         }
     }
 
-    @Override
     public boolean supportsFlingToDelete() {
         return true;
     }
 
-    @Override
     public void onFlingToDelete(DragObject d, int x, int y, PointF vec) {
         // Do nothing
     }
 
-    @Override
     public void onFlingToDeleteCompleted() {
         // Do nothing
     }
@@ -3424,7 +3423,6 @@ public class Workspace extends SmoothPagedView
         }
     }
 
-    @Override
     public boolean onEnterScrollArea(int x, int y, int direction) {
         // Ignore the scroll area if we are dragging over the hot seat
         boolean isPortrait = !LauncherApplication.isScreenLandscape(getContext());
@@ -3459,7 +3457,6 @@ public class Workspace extends SmoothPagedView
         return result;
     }
 
-    @Override
     public boolean onExitScrollArea() {
         boolean result = false;
         if (mInScrollArea) {
@@ -3666,7 +3663,6 @@ public class Workspace extends SmoothPagedView
         // regardless of whether the item was added or not (unlike the logic above).  This is only
         // relevant for direct workspace items.
         post(new Runnable() {
-            @Override
             public void run() {
                 String spKey = LauncherApplication.getSharedPreferencesKey();
                 SharedPreferences sp = getContext().getSharedPreferences(spKey,

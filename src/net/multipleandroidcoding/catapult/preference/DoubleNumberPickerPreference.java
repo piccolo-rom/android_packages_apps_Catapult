@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 The CyanogenMod Project
+ * Copyright (C) 2012 Rashed Abdel-Tawab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import net.multipleandroidcoding.catapult.R;
  * @author nebkat
  */
 
-/*public class DoubleNumberPickerPreference extends DialogPreference {
+public class DoubleNumberPickerPreference extends DialogPreference {
     private int mMin1, mMax1, mDefault1;
     private int mMin2, mMax2, mDefault2;
 
@@ -183,4 +183,4 @@ import net.multipleandroidcoding.catapult.R;
         mDefault2 = def;
     }
 
-}*/
+}
