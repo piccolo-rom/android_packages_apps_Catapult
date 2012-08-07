@@ -268,6 +268,20 @@ public class Workspace extends SmoothPagedView
         Stack
     }
 
+    // Preferences
+    private int mNumberHomescreens;
+    private int mDefaultHomescreen;
+    private int mScreenPaddingVertical;
+    private int mScreenPaddingHorizontal;
+    private boolean mShowSearchBar;
+    private boolean mResizeAnyWidget;
+    private boolean mHideIconLabels;
+    private boolean mScrollWallpaper;
+    private boolean mShowScrollingIndicator;
+    private boolean mFadeScrollingIndicator;
+    private boolean mShowDockDivider;
+    private TransitionEffect mTransitionEffect;
+
     /**
      * Used to inflate the Workspace from XML.
      *
