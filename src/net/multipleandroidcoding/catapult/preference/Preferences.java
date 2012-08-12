@@ -22,17 +22,24 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import net.multipleandroidcoding.catapult.LauncherApplication;
-
 import net.multipleandroidcoding.catapult.R;
 
 public class Preferences extends PreferenceActivity {
 
     private static final String TAG = "Launcher.Preferences";
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.xml.preferences, menu);
+      return true;
+    }
 
-    @SuppressWarnings("deprecation")
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);

@@ -937,88 +937,89 @@ containing a value of this type.
         public static final int ic_launcher_home=0x7f020025;
         public static final int ic_launcher_info_active_holo=0x7f020026;
         public static final int ic_launcher_info_normal_holo=0x7f020027;
-        public static final int ic_launcher_market_holo=0x7f020028;
+        public static final int ic_launcher_play_store=0x7f020028;
         public static final int ic_launcher_trashcan_active_holo=0x7f020029;
         public static final int ic_launcher_trashcan_normal_holo=0x7f02002a;
         public static final int ic_launcher_wallpaper=0x7f02002b;
         public static final int ic_menu_overflow=0x7f02002c;
-        public static final int info_target_selector=0x7f02002d;
-        public static final int overscroll_glow_left=0x7f02002e;
-        public static final int overscroll_glow_right=0x7f02002f;
-        public static final int page_hover_left_holo=0x7f020030;
-        public static final int page_hover_right_holo=0x7f020031;
-        public static final int paged_view_indicator=0x7f020032;
-        public static final int portal_container_holo=0x7f020033;
-        public static final int portal_ring_inner_holo=0x7f020034;
-        public static final int portal_ring_inner_nolip_holo=0x7f020035;
-        public static final int portal_ring_outer_holo=0x7f020036;
-        public static final int portal_ring_rest=0x7f020037;
-        public static final int remove_target_selector=0x7f020038;
-        public static final int search_bg_panel=0x7f020039;
-        public static final int search_frame=0x7f02003a;
-        public static final int tab_selected_focused_holo=0x7f02003b;
-        public static final int tab_selected_holo=0x7f02003c;
-        public static final int tab_selected_pressed_focused_holo=0x7f02003d;
-        public static final int tab_selected_pressed_holo=0x7f02003e;
-        public static final int tab_unselected_focused_holo=0x7f02003f;
-        public static final int tab_unselected_holo=0x7f020040;
-        public static final int tab_unselected_pressed_focused_holo=0x7f020041;
-        public static final int tab_unselected_pressed_holo=0x7f020042;
-        public static final int tab_widget_indicator_selector=0x7f020043;
-        public static final int uninstall_target_selector=0x7f020044;
-        public static final int wallpaper_01=0x7f020045;
-        public static final int wallpaper_01_small=0x7f020046;
-        public static final int wallpaper_02=0x7f020047;
-        public static final int wallpaper_02_small=0x7f020048;
-        public static final int wallpaper_03=0x7f020049;
-        public static final int wallpaper_03_small=0x7f02004a;
-        public static final int wallpaper_04=0x7f02004b;
-        public static final int wallpaper_04_small=0x7f02004c;
-        public static final int wallpaper_05=0x7f02004d;
-        public static final int wallpaper_05_small=0x7f02004e;
-        public static final int wallpaper_08=0x7f02004f;
-        public static final int wallpaper_08_small=0x7f020050;
-        public static final int wallpaper_09=0x7f020051;
-        public static final int wallpaper_09_small=0x7f020052;
-        public static final int wallpaper_10=0x7f020053;
-        public static final int wallpaper_10_small=0x7f020054;
-        public static final int wallpaper_11=0x7f020055;
-        public static final int wallpaper_11_small=0x7f020056;
-        public static final int wallpaper_12=0x7f020057;
-        public static final int wallpaper_12_small=0x7f020058;
-        public static final int wallpaper_architecture=0x7f020059;
-        public static final int wallpaper_architecture_small=0x7f02005a;
-        public static final int wallpaper_bubblegum=0x7f02005b;
-        public static final int wallpaper_bubblegum_small=0x7f02005c;
-        public static final int wallpaper_canyon=0x7f02005d;
-        public static final int wallpaper_canyon_small=0x7f02005e;
-        public static final int wallpaper_chroma=0x7f02005f;
-        public static final int wallpaper_chroma_small=0x7f020060;
-        public static final int wallpaper_escape=0x7f020061;
-        public static final int wallpaper_escape_small=0x7f020062;
-        public static final int wallpaper_fidelity=0x7f020063;
-        public static final int wallpaper_fidelity_small=0x7f020064;
-        public static final int wallpaper_flora=0x7f020065;
-        public static final int wallpaper_flora_small=0x7f020066;
-        public static final int wallpaper_gallery_background=0x7f020067;
-        public static final int wallpaper_gallery_item=0x7f020068;
-        public static final int wallpaper_kepler=0x7f020069;
-        public static final int wallpaper_kepler_small=0x7f02006a;
-        public static final int wallpaper_leaf=0x7f02006b;
-        public static final int wallpaper_leaf_small=0x7f02006c;
-        public static final int wallpaper_noir=0x7f02006d;
-        public static final int wallpaper_noir_small=0x7f02006e;
-        public static final int wallpaper_outofthebox=0x7f02006f;
-        public static final int wallpaper_outofthebox_small=0x7f020070;
-        public static final int wallpaper_picker_preview=0x7f020071;
-        public static final int widget_container_holo=0x7f020072;
-        public static final int widget_preview_tile=0x7f020073;
-        public static final int widget_resize_frame_holo=0x7f020074;
-        public static final int widget_resize_handle_bottom=0x7f020075;
-        public static final int widget_resize_handle_left=0x7f020076;
-        public static final int widget_resize_handle_right=0x7f020077;
-        public static final int widget_resize_handle_top=0x7f020078;
-        public static final int workspace_bg=0x7f020079;
+        public static final int ic_menu_shop_holo_dark=0x7f02002d;
+        public static final int info_target_selector=0x7f02002e;
+        public static final int overscroll_glow_left=0x7f02002f;
+        public static final int overscroll_glow_right=0x7f020030;
+        public static final int page_hover_left_holo=0x7f020031;
+        public static final int page_hover_right_holo=0x7f020032;
+        public static final int paged_view_indicator=0x7f020033;
+        public static final int portal_container_holo=0x7f020034;
+        public static final int portal_ring_inner_holo=0x7f020035;
+        public static final int portal_ring_inner_nolip_holo=0x7f020036;
+        public static final int portal_ring_outer_holo=0x7f020037;
+        public static final int portal_ring_rest=0x7f020038;
+        public static final int remove_target_selector=0x7f020039;
+        public static final int search_bg_panel=0x7f02003a;
+        public static final int search_frame=0x7f02003b;
+        public static final int tab_selected_focused_holo=0x7f02003c;
+        public static final int tab_selected_holo=0x7f02003d;
+        public static final int tab_selected_pressed_focused_holo=0x7f02003e;
+        public static final int tab_selected_pressed_holo=0x7f02003f;
+        public static final int tab_unselected_focused_holo=0x7f020040;
+        public static final int tab_unselected_holo=0x7f020041;
+        public static final int tab_unselected_pressed_focused_holo=0x7f020042;
+        public static final int tab_unselected_pressed_holo=0x7f020043;
+        public static final int tab_widget_indicator_selector=0x7f020044;
+        public static final int uninstall_target_selector=0x7f020045;
+        public static final int wallpaper_01=0x7f020046;
+        public static final int wallpaper_01_small=0x7f020047;
+        public static final int wallpaper_02=0x7f020048;
+        public static final int wallpaper_02_small=0x7f020049;
+        public static final int wallpaper_03=0x7f02004a;
+        public static final int wallpaper_03_small=0x7f02004b;
+        public static final int wallpaper_04=0x7f02004c;
+        public static final int wallpaper_04_small=0x7f02004d;
+        public static final int wallpaper_05=0x7f02004e;
+        public static final int wallpaper_05_small=0x7f02004f;
+        public static final int wallpaper_08=0x7f020050;
+        public static final int wallpaper_08_small=0x7f020051;
+        public static final int wallpaper_09=0x7f020052;
+        public static final int wallpaper_09_small=0x7f020053;
+        public static final int wallpaper_10=0x7f020054;
+        public static final int wallpaper_10_small=0x7f020055;
+        public static final int wallpaper_11=0x7f020056;
+        public static final int wallpaper_11_small=0x7f020057;
+        public static final int wallpaper_12=0x7f020058;
+        public static final int wallpaper_12_small=0x7f020059;
+        public static final int wallpaper_architecture=0x7f02005a;
+        public static final int wallpaper_architecture_small=0x7f02005b;
+        public static final int wallpaper_bubblegum=0x7f02005c;
+        public static final int wallpaper_bubblegum_small=0x7f02005d;
+        public static final int wallpaper_canyon=0x7f02005e;
+        public static final int wallpaper_canyon_small=0x7f02005f;
+        public static final int wallpaper_chroma=0x7f020060;
+        public static final int wallpaper_chroma_small=0x7f020061;
+        public static final int wallpaper_escape=0x7f020062;
+        public static final int wallpaper_escape_small=0x7f020063;
+        public static final int wallpaper_fidelity=0x7f020064;
+        public static final int wallpaper_fidelity_small=0x7f020065;
+        public static final int wallpaper_flora=0x7f020066;
+        public static final int wallpaper_flora_small=0x7f020067;
+        public static final int wallpaper_gallery_background=0x7f020068;
+        public static final int wallpaper_gallery_item=0x7f020069;
+        public static final int wallpaper_kepler=0x7f02006a;
+        public static final int wallpaper_kepler_small=0x7f02006b;
+        public static final int wallpaper_leaf=0x7f02006c;
+        public static final int wallpaper_leaf_small=0x7f02006d;
+        public static final int wallpaper_noir=0x7f02006e;
+        public static final int wallpaper_noir_small=0x7f02006f;
+        public static final int wallpaper_outofthebox=0x7f020070;
+        public static final int wallpaper_outofthebox_small=0x7f020071;
+        public static final int wallpaper_picker_preview=0x7f020072;
+        public static final int widget_container_holo=0x7f020073;
+        public static final int widget_preview_tile=0x7f020074;
+        public static final int widget_resize_frame_holo=0x7f020075;
+        public static final int widget_resize_handle_bottom=0x7f020076;
+        public static final int widget_resize_handle_left=0x7f020077;
+        public static final int widget_resize_handle_right=0x7f020078;
+        public static final int widget_resize_handle_top=0x7f020079;
+        public static final int workspace_bg=0x7f02007a;
     }
     public static final class id {
         public static final int all_apps_button=0x7f070037;
@@ -1340,18 +1341,18 @@ containing a value of this type.
         public static final int config_workspaceDefaultTransitionEffect=0x7f0a0001;
         /**  Dummy string [CHAR_LIMIT=60] 
          */
-        public static final int custom_workspace_cling_description_1=0x7f0a00a0;
+        public static final int custom_workspace_cling_description_1=0x7f0a0069;
         /**  Dummy string [CHAR_LIMIT=60] 
          */
-        public static final int custom_workspace_cling_description_2=0x7f0a00a2;
+        public static final int custom_workspace_cling_description_2=0x7f0a006b;
         /**  Strings used in device overlays 
  Clings 
  Dummy string [CHAR_LIMIT=40] 
          */
-        public static final int custom_workspace_cling_title_1=0x7f0a009f;
+        public static final int custom_workspace_cling_title_1=0x7f0a0068;
         /**  Dummy string [CHAR_LIMIT=40] 
          */
-        public static final int custom_workspace_cling_title_2=0x7f0a00a1;
+        public static final int custom_workspace_cling_title_2=0x7f0a006a;
         /**  The format string for default page scroll text [CHAR_LIMIT=none] 
          */
         public static final int default_scroll_format=0x7f0a0053;
@@ -1533,78 +1534,78 @@ s
         public static final int pick_wallpaper=0x7f0a000b;
         /**  Application 
          */
-        public static final int preferences_application_title=0x7f0a006a;
+        public static final int preferences_application_title=0x7f0a006e;
         /**  Dock 
          */
-        public static final int preferences_interface_dock_title=0x7f0a009b;
-        public static final int preferences_interface_drawer_indicator_category=0x7f0a0096;
-        public static final int preferences_interface_drawer_indicator_enable_summary=0x7f0a0098;
-        public static final int preferences_interface_drawer_indicator_enable_title=0x7f0a0097;
-        public static final int preferences_interface_drawer_indicator_fade_summary=0x7f0a009a;
-        public static final int preferences_interface_drawer_indicator_fade_title=0x7f0a0099;
-        public static final int preferences_interface_drawer_scrolling_category=0x7f0a0091;
-        public static final int preferences_interface_drawer_scrolling_fade_adjacent_screens_summary=0x7f0a0095;
-        public static final int preferences_interface_drawer_scrolling_fade_adjacent_screens_title=0x7f0a0094;
-        public static final int preferences_interface_drawer_scrolling_transition_effect_summary=0x7f0a0093;
-        public static final int preferences_interface_drawer_scrolling_transition_effect_title=0x7f0a0092;
+        public static final int preferences_interface_dock_title=0x7f0a009f;
+        public static final int preferences_interface_drawer_indicator_category=0x7f0a009a;
+        public static final int preferences_interface_drawer_indicator_enable_summary=0x7f0a009c;
+        public static final int preferences_interface_drawer_indicator_enable_title=0x7f0a009b;
+        public static final int preferences_interface_drawer_indicator_fade_summary=0x7f0a009e;
+        public static final int preferences_interface_drawer_indicator_fade_title=0x7f0a009d;
+        public static final int preferences_interface_drawer_scrolling_category=0x7f0a0095;
+        public static final int preferences_interface_drawer_scrolling_fade_adjacent_screens_summary=0x7f0a0099;
+        public static final int preferences_interface_drawer_scrolling_fade_adjacent_screens_title=0x7f0a0098;
+        public static final int preferences_interface_drawer_scrolling_transition_effect_summary=0x7f0a0097;
+        public static final int preferences_interface_drawer_scrolling_transition_effect_title=0x7f0a0096;
         /**  Drawer 
          */
-        public static final int preferences_interface_drawer_title=0x7f0a008d;
-        public static final int preferences_interface_drawer_widgets_category=0x7f0a008e;
-        public static final int preferences_interface_drawer_widgets_join_apps_summary=0x7f0a0090;
-        public static final int preferences_interface_drawer_widgets_join_apps_title=0x7f0a008f;
-        public static final int preferences_interface_general_orientation_title=0x7f0a009e;
+        public static final int preferences_interface_drawer_title=0x7f0a0091;
+        public static final int preferences_interface_drawer_widgets_category=0x7f0a0092;
+        public static final int preferences_interface_drawer_widgets_join_apps_summary=0x7f0a0094;
+        public static final int preferences_interface_drawer_widgets_join_apps_title=0x7f0a0093;
+        public static final int preferences_interface_general_orientation_title=0x7f0a00a2;
         /**  General 
          */
-        public static final int preferences_interface_general_title=0x7f0a009d;
-        public static final int preferences_interface_homescreen_general_category=0x7f0a006c;
-        public static final int preferences_interface_homescreen_general_default_screen_summary=0x7f0a0070;
-        public static final int preferences_interface_homescreen_general_default_screen_title=0x7f0a006f;
-        public static final int preferences_interface_homescreen_general_grid_columns_title=0x7f0a0074;
-        public static final int preferences_interface_homescreen_general_grid_rows_title=0x7f0a0073;
-        public static final int preferences_interface_homescreen_general_grid_summary=0x7f0a0072;
-        public static final int preferences_interface_homescreen_general_grid_title=0x7f0a0071;
-        public static final int preferences_interface_homescreen_general_hide_icon_labels_summary=0x7f0a007e;
-        public static final int preferences_interface_homescreen_general_hide_icon_labels_title=0x7f0a007d;
-        public static final int preferences_interface_homescreen_general_resize_any_widget_summary=0x7f0a007c;
-        public static final int preferences_interface_homescreen_general_resize_any_widget_title=0x7f0a007b;
-        public static final int preferences_interface_homescreen_general_screen_padding_horizontal_summary=0x7f0a0078;
-        public static final int preferences_interface_homescreen_general_screen_padding_horizontal_title=0x7f0a0077;
-        public static final int preferences_interface_homescreen_general_screen_padding_vertical_summary=0x7f0a0076;
-        public static final int preferences_interface_homescreen_general_screen_padding_vertical_title=0x7f0a0075;
-        public static final int preferences_interface_homescreen_general_screens_summary=0x7f0a006e;
-        public static final int preferences_interface_homescreen_general_screens_title=0x7f0a006d;
-        public static final int preferences_interface_homescreen_general_search_summary=0x7f0a007a;
-        public static final int preferences_interface_homescreen_general_search_title=0x7f0a0079;
-        public static final int preferences_interface_homescreen_indicator_background_summary=0x7f0a008c;
-        public static final int preferences_interface_homescreen_indicator_background_title=0x7f0a008b;
-        public static final int preferences_interface_homescreen_indicator_category=0x7f0a0086;
-        public static final int preferences_interface_homescreen_indicator_enable_summary=0x7f0a0088;
-        public static final int preferences_interface_homescreen_indicator_enable_title=0x7f0a0087;
-        public static final int preferences_interface_homescreen_indicator_fade_summary=0x7f0a008a;
-        public static final int preferences_interface_homescreen_indicator_fade_title=0x7f0a0089;
-        public static final int preferences_interface_homescreen_scrolling_category=0x7f0a007f;
-        public static final int preferences_interface_homescreen_scrolling_fade_adjacent_screens_summary=0x7f0a0083;
-        public static final int preferences_interface_homescreen_scrolling_fade_adjacent_screens_title=0x7f0a0082;
-        public static final int preferences_interface_homescreen_scrolling_scroll_wallpaper_summary=0x7f0a0085;
-        public static final int preferences_interface_homescreen_scrolling_scroll_wallpaper_title=0x7f0a0084;
-        public static final int preferences_interface_homescreen_scrolling_transition_effect_summary=0x7f0a0081;
-        public static final int preferences_interface_homescreen_scrolling_transition_effect_title=0x7f0a0080;
+        public static final int preferences_interface_general_title=0x7f0a00a1;
+        public static final int preferences_interface_homescreen_general_category=0x7f0a0070;
+        public static final int preferences_interface_homescreen_general_default_screen_summary=0x7f0a0074;
+        public static final int preferences_interface_homescreen_general_default_screen_title=0x7f0a0073;
+        public static final int preferences_interface_homescreen_general_grid_columns_title=0x7f0a0078;
+        public static final int preferences_interface_homescreen_general_grid_rows_title=0x7f0a0077;
+        public static final int preferences_interface_homescreen_general_grid_summary=0x7f0a0076;
+        public static final int preferences_interface_homescreen_general_grid_title=0x7f0a0075;
+        public static final int preferences_interface_homescreen_general_hide_icon_labels_summary=0x7f0a0082;
+        public static final int preferences_interface_homescreen_general_hide_icon_labels_title=0x7f0a0081;
+        public static final int preferences_interface_homescreen_general_resize_any_widget_summary=0x7f0a0080;
+        public static final int preferences_interface_homescreen_general_resize_any_widget_title=0x7f0a007f;
+        public static final int preferences_interface_homescreen_general_screen_padding_horizontal_summary=0x7f0a007c;
+        public static final int preferences_interface_homescreen_general_screen_padding_horizontal_title=0x7f0a007b;
+        public static final int preferences_interface_homescreen_general_screen_padding_vertical_summary=0x7f0a007a;
+        public static final int preferences_interface_homescreen_general_screen_padding_vertical_title=0x7f0a0079;
+        public static final int preferences_interface_homescreen_general_screens_summary=0x7f0a0072;
+        public static final int preferences_interface_homescreen_general_screens_title=0x7f0a0071;
+        public static final int preferences_interface_homescreen_general_search_summary=0x7f0a007e;
+        public static final int preferences_interface_homescreen_general_search_title=0x7f0a007d;
+        public static final int preferences_interface_homescreen_indicator_background_summary=0x7f0a0090;
+        public static final int preferences_interface_homescreen_indicator_background_title=0x7f0a008f;
+        public static final int preferences_interface_homescreen_indicator_category=0x7f0a008a;
+        public static final int preferences_interface_homescreen_indicator_enable_summary=0x7f0a008c;
+        public static final int preferences_interface_homescreen_indicator_enable_title=0x7f0a008b;
+        public static final int preferences_interface_homescreen_indicator_fade_summary=0x7f0a008e;
+        public static final int preferences_interface_homescreen_indicator_fade_title=0x7f0a008d;
+        public static final int preferences_interface_homescreen_scrolling_category=0x7f0a0083;
+        public static final int preferences_interface_homescreen_scrolling_fade_adjacent_screens_summary=0x7f0a0087;
+        public static final int preferences_interface_homescreen_scrolling_fade_adjacent_screens_title=0x7f0a0086;
+        public static final int preferences_interface_homescreen_scrolling_scroll_wallpaper_summary=0x7f0a0089;
+        public static final int preferences_interface_homescreen_scrolling_scroll_wallpaper_title=0x7f0a0088;
+        public static final int preferences_interface_homescreen_scrolling_transition_effect_summary=0x7f0a0085;
+        public static final int preferences_interface_homescreen_scrolling_transition_effect_title=0x7f0a0084;
         /**  UI 
  Homescreen 
          */
-        public static final int preferences_interface_homescreen_title=0x7f0a006b;
+        public static final int preferences_interface_homescreen_title=0x7f0a006f;
         /**  Icons 
          */
-        public static final int preferences_interface_icons_title=0x7f0a009c;
+        public static final int preferences_interface_icons_title=0x7f0a00a0;
         /**  UI 
          */
-        public static final int preferences_interface_title=0x7f0a0069;
+        public static final int preferences_interface_title=0x7f0a006d;
         /**              
  Preferences 
              
          */
-        public static final int preferences_title=0x7f0a0068;
+        public static final int preferences_title=0x7f0a006c;
         /**  Buttons in Rename folder dialog box 
          */
         public static final int rename_action=0x7f0a0017;

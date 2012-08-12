@@ -111,6 +111,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.multipleandroidcoding.catapult.preference.*;
+
 /**
  * Default launcher application.
  */
@@ -128,7 +130,8 @@ public final class Launcher extends Activity
     private static final int MENU_WALLPAPER_SETTINGS = Menu.FIRST + 1;
     private static final int MENU_MANAGE_APPS = MENU_WALLPAPER_SETTINGS + 1;
     private static final int MENU_SYSTEM_SETTINGS = MENU_MANAGE_APPS + 1;
-    private static final int MENU_HELP = MENU_SYSTEM_SETTINGS + 1;
+    private static final int MENU_LAUNCHER_SETTINGS = MENU_SYSTEM_SETTINGS + 1;
+    private static final int MENU_HELP = MENU_LAUNCHER_SETTINGS + 1;
 
     private static final int REQUEST_CREATE_SHORTCUT = 1;
     private static final int REQUEST_CREATE_APPWIDGET = 5;
@@ -1503,6 +1506,7 @@ public final class Launcher extends Activity
             appSearchData, globalSearch, sourceBounds);
     }
 
+    //TODO: Menu settings
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isWorkspaceLocked()) {
@@ -1516,6 +1520,9 @@ public final class Launcher extends Activity
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         Intent settings = new Intent(android.provider.Settings.ACTION_SETTINGS);
         settings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        Intent launcherSettings = new Intent(this, net.multipleandroidcoding.catapult.preference.Preferences.class);
+        launcherSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         String helpUrl = getString(R.string.help_url);
         Intent help = new Intent(Intent.ACTION_VIEW, Uri.parse(helpUrl));
@@ -1533,6 +1540,10 @@ public final class Launcher extends Activity
             .setIcon(android.R.drawable.ic_menu_preferences)
             .setIntent(settings)
             .setAlphabeticShortcut('P');
+        menu.add(0, MENU_LAUNCHER_SETTINGS, 0, R.string.menu_preferences)
+        	.setIcon(android.R.drawable.ic_menu_preferences)
+        	.setIntent(launcherSettings)
+        	.setAlphabeticShortcut('S');
         if (!helpUrl.isEmpty()) {
             menu.add(0, MENU_HELP, 0, R.string.menu_help)
                 .setIcon(android.R.drawable.ic_menu_help)
@@ -3067,7 +3078,7 @@ public final class Launcher extends Activity
             int coi = getCurrentOrientationIndexForGlobalIcons();
             mAppMarketIntent = intent;
             sAppMarketIcon[coi] = updateTextButtonWithIconFromExternalActivity(
-                    R.id.market_button, activityName, R.drawable.ic_launcher_market_holo,
+                    R.id.market_button, activityName, R.drawable.ic_menu_shop_holo_dark,
                     TOOLBAR_ICON_METADATA_NAME);
             marketButton.setVisibility(View.VISIBLE);
         } else {
