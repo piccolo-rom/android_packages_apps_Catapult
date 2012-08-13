@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Rashed Abdel-Tawab
+ * Copyright (C) 2011 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +21,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceGroup;
-import android.view.Menu;
-import android.view.MenuInflater;
 
-import net.multipleandroidcoding.catapult.LauncherApplication;
 import net.multipleandroidcoding.catapult.R;
 
 public class Preferences extends PreferenceActivity {
 
     private static final String TAG = "Launcher.Preferences";
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.xml.preferences, menu);
-      return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +39,7 @@ public class Preferences extends PreferenceActivity {
                 editor.putBoolean(PreferencesProvider.PREFERENCES_CHANGED, true);
                 editor.commit();
 
-        // Remove some preferences on large screens
-        if (LauncherApplication.isScreenLarge()) {
-            PreferenceGroup homescreen = (PreferenceGroup) findPreference("ui_homescreen");
-            homescreen.removePreference(findPreference("ui_homescreen_grid"));
-            homescreen.removePreference(findPreference("ui_homescreen_screen_padding_vertical"));
-            homescreen.removePreference(findPreference("ui_homescreen_screen_padding_horizontal"));
-            homescreen.removePreference(findPreference("ui_homescreen_indicator"));
-
-            PreferenceGroup drawer = (PreferenceGroup) findPreference("ui_drawer");
-            drawer.removePreference(findPreference("ui_drawer_indicator"));
-        }
-
         Preference version = findPreference("application_version");
-        version.setTitle(getString(R.string.application_name));
+        version.setTitle(getString(R.string.application_name) + " " + getString(R.string.application_version));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Rashed Abdel-Tawab
+ * Copyright (C) 2011 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,10 @@ package net.multipleandroidcoding.catapult.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import net.multipleandroidcoding.catapult.LauncherApplication;
-import net.multipleandroidcoding.catapult.Workspace;
-import net.multipleandroidcoding.catapult.AppsCustomizePagedView;
-
 public final class PreferencesProvider {
     public static final String PREFERENCES_KEY = "net.multipleandroidcoding.catapult_preferences";
 
     public static final String PREFERENCES_CHANGED = "preferences_changed";
-
     public static class Interface {
         public static class Homescreen {
             public static int getNumberHomescreens(Context context) {
@@ -56,16 +51,6 @@ public final class PreferencesProvider {
                     return def;
                 }
             }
-            public static int getScreenPaddingVertical(Context context) {
-                final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                return (int)((float) preferences.getInt("ui_homescreen_screen_padding_vertical", 0) * 3.0f *
-                        LauncherApplication.getScreenDensity());
-            }
-            public static int getScreenPaddingHorizontal(Context context) {
-                final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                return (int)((float) preferences.getInt("ui_homescreen_screen_padding_horizontal", 0) * 3.0f *
-                        LauncherApplication.getScreenDensity());
-            }
             public static boolean getShowSearchBar(Context context) {
                 final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
                 return preferences.getBoolean("ui_homescreen_general_search", true);
@@ -82,15 +67,6 @@ public final class PreferencesProvider {
                 public static boolean getScrollWallpaper(Context context) {
                     final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
                     return preferences.getBoolean("ui_homescreen_scrolling_scroll_wallpaper", true);
-                }
-                public static Workspace.TransitionEffect getTransitionEffect(Context context, String def) {
-                    final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                    return Workspace.TransitionEffect.valueOf(
-                            preferences.getString("ui_homescreen_scrolling_transition_effect", def));
-                }
-                public static boolean getFadeInAdjacentScreens(Context context, boolean def) {
-                    final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                    return preferences.getBoolean("ui_homescreen_scrolling_fade_adjacent_screens", def);
                 }
             }
             public static class Indicator {
@@ -113,17 +89,6 @@ public final class PreferencesProvider {
             public static boolean getJoinWidgetsApps(Context context) {
                 final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
                 return preferences.getBoolean("ui_drawer_widgets_join_apps", true);
-            }
-            public static class Scrolling {
-                public static AppsCustomizePagedView.TransitionEffect getTransitionEffect(Context context, String def) {
-                    final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                    return AppsCustomizePagedView.TransitionEffect.valueOf(
-                            preferences.getString("ui_drawer_scrolling_transition_effect", def));
-                }
-                public static boolean getFadeInAdjacentScreens(Context context) {
-                    final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                    return preferences.getBoolean("ui_drawer_scrolling_fade_adjacent_screens", false);
-                }
             }
             public static class Indicator {
                 public static boolean getShowScrollingIndicator(Context context) {

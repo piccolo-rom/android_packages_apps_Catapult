@@ -35,6 +35,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Insets;
 import android.graphics.MaskFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -64,6 +65,7 @@ import android.widget.Toast;
 
 import net.multipleandroidcoding.catapult.R;
 import net.multipleandroidcoding.catapult.DropTarget.DragObject;
+import net.multipleandroidcoding.catapult.preference.PreferencesProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,19 +141,20 @@ class AsyncTaskPageData {
  * A generic template for an async task used in AppsCustomize.
  */
 class AppsCustomizeAsyncTask extends AsyncTask<AsyncTaskPageData, Void, AsyncTaskPageData> {
-    AppsCustomizeAsyncTask(int p, AsyncTaskPageData.Type ty) {
+    AppsCustomizeAsyncTask(int p, AppsCustomizePagedView.ContentType t, AsyncTaskPageData.Type ty) {
         page = p;
+        pageContentType = t;
         threadPriority = Process.THREAD_PRIORITY_DEFAULT;
         dataType = ty;
     }
-    
+    @Override
     protected AsyncTaskPageData doInBackground(AsyncTaskPageData... params) {
         if (params.length != 1) return null;
         // Load each of the widget previews in the background
         params[0].doInBackgroundCallback.run(this, params[0]);
         return params[0];
     }
-    
+    @Override
     protected void onPostExecute(AsyncTaskPageData result) {
         // All the widget previews are loaded, so we can just callback to inflate the page
         result.postExecuteCallback.run(this, result);
@@ -167,6 +170,7 @@ class AppsCustomizeAsyncTask extends AsyncTask<AsyncTaskPageData, Void, AsyncTas
     // The page that this async task is associated with
     AsyncTaskPageData.Type dataType;
     int page;
+    AppsCustomizePagedView.ContentType pageContentType;
     int threadPriority;
 }
 
@@ -201,28 +205,28 @@ abstract class WeakReferenceThreadLocal<T> {
 }
 
 class CanvasCache extends WeakReferenceThreadLocal<Canvas> {
-    
+    @Override
     protected Canvas initialValue() {
         return new Canvas();
     }
 }
 
 class PaintCache extends WeakReferenceThreadLocal<Paint> {
-    
+    @Override
     protected Paint initialValue() {
         return null;
     }
 }
 
 class BitmapCache extends WeakReferenceThreadLocal<Bitmap> {
-    
+    @Override
     protected Bitmap initialValue() {
         return null;
     }
 }
 
 class RectCache extends WeakReferenceThreadLocal<Rect> {
-    
+    @Override
     protected Rect initialValue() {
         return new Rect();
     }
@@ -235,8 +239,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         AllAppsView, View.OnClickListener, View.OnKeyListener, DragSource,
         PagedViewIcon.PressedCallback, PagedViewWidget.ShortPressListener,
         LauncherTransitionable {
-
-	static final String TAG = "AppsCustomizePagedView";
+    static final String TAG = "AppsCustomizePagedView";
 
     /**
      * The different content types that this paged view can show.
@@ -244,6 +247,14 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     public enum ContentType {
         Applications,
         Widgets
+    }
+
+    /**
+     * The sorting mode of the apps.
+     */
+    public enum SortMode {
+        Title,
+        InstallDate
     }
 
     // Refs
@@ -255,13 +266,17 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     // Save and Restore
     private int mSaveInstanceStateItemIndex = -1;
     private PagedViewIcon mPressedIcon;
+    private int mRestorePage = -1;
 
     // Content
+    private ContentType mContentType;
+    private SortMode mSortMode = SortMode.Title;
     private ArrayList<ApplicationInfo> mApps;
     private ArrayList<Object> mWidgets;
 
     // Cling
     private boolean mHasShownAllAppsCling;
+    private boolean mHasShownAllAppsSortCling;
     private int mClingFocusedX;
     private int mClingFocusedY;
 
@@ -274,12 +289,13 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     private int mContentWidth;
     private int mAppIconSize;
     private int mMaxAppCellCountX, mMaxAppCellCountY;
+    private int mMaxWidgetSpan, mMinWidgetSpan;
     private int mWidgetCountX, mWidgetCountY;
     private int mWidgetWidthGap, mWidgetHeightGap;
     private final float sWidgetPreviewIconPaddingPercentage = 0.25f;
     private PagedViewCellLayout mWidgetSpacingLayout;
-    private int mNumAppsPages;
-    private int mNumWidgetPages;
+    private int mNumAppsPages = 0;
+    private int mNumWidgetPages = 0;
 
     // Relating to the scroll and overscroll effects
     Workspace.ZInterpolator mZInterpolator = new Workspace.ZInterpolator(0.5f);
@@ -290,18 +306,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     private static final boolean PERFORM_OVERSCROLL_ROTATION = true;
     private AccelerateInterpolator mAlphaInterpolator = new AccelerateInterpolator(0.9f);
     private DecelerateInterpolator mLeftScreenAlphaInterpolator = new DecelerateInterpolator(4);
-    public enum TransitionEffect {
-        Standard,
-        Tablet,
-        ZoomIn,
-        ZoomOut,
-        RotateUp,
-        RotateDown,
-        CubeIn,
-        CubeOut,
-        Stack
-    }
-    private TransitionEffect mTransitionEffect;
 
     // Previews & outlines
     ArrayList<AppsCustomizeAsyncTask> mRunningTasks;
@@ -336,15 +340,30 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     RectCache mCachedAppWidgetPreviewDestRect = new RectCache();
     PaintCache mCachedAppWidgetPreviewPaint = new PaintCache();
 
+    // Preferences
+    private boolean mJoinWidgetsApps;
+    private boolean mShowScrollingIndicator;
+    private boolean mFadeScrollingIndicator;
+
     public AppsCustomizePagedView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mLayoutInflater = LayoutInflater.from(context);
         mPackageManager = context.getPackageManager();
+        mContentType = ContentType.Applications;
         mApps = new ArrayList<ApplicationInfo>();
         mWidgets = new ArrayList<Object>();
         mIconCache = ((LauncherApplication) context.getApplicationContext()).getIconCache();
         mCanvas = new Canvas();
         mRunningTasks = new ArrayList<AppsCustomizeAsyncTask>();
+
+        // Preferences
+        mJoinWidgetsApps = PreferencesProvider.Interface.Drawer.getJoinWidgetsApps(context);
+        mShowScrollingIndicator = PreferencesProvider.Interface.Drawer.Indicator.getShowScrollingIndicator(context);
+        mFadeScrollingIndicator = PreferencesProvider.Interface.Drawer.Indicator.getFadeScrollingIndicator(context);
+
+        if (!mShowScrollingIndicator) {
+            disableScrollingIndicator();
+        }
 
         // Save the default widget preview background
         Resources resources = context.getResources();
@@ -365,6 +384,11 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         a.recycle();
         mWidgetSpacingLayout = new PagedViewCellLayout(getContext());
 
+        // The max widget span is the length N, such that NxN is the largest bounds that the widget
+        // preview can be before applying the widget scaling
+        mMinWidgetSpan = 1;
+        mMaxWidgetSpan = 3;
+
         // The padding on the non-matched dimension for the default widget preview icons
         // (top + bottom)
         mFadeInAdjacentScreens = false;
@@ -375,7 +399,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    
+    @Override
     protected void init() {
         super.init();
         mCenterPagesVertically = false;
@@ -385,7 +409,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         setDragSlopeThreshold(r.getInteger(R.integer.config_appsCustomizeDragSlopeThreshold)/100f);
     }
 
-    
+    @Override
     protected void onUnhandledTap(MotionEvent ev) {
         if (LauncherApplication.isScreenLarge()) {
             // Dismiss AppsCustomize if we tap
@@ -399,22 +423,44 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         int i = -1;
         if (getPageCount() > 0) {
             int currentPage = getCurrentPage();
-            if (currentPage < mNumAppsPages) {
-                PagedViewCellLayout layout = (PagedViewCellLayout) getPageAt(currentPage);
-                PagedViewCellLayoutChildren childrenLayout = layout.getChildrenLayout();
-                int numItemsPerPage = mCellCountX * mCellCountY;
-                int childCount = childrenLayout.getChildCount();
-                if (childCount > 0) {
-                    i = (currentPage * numItemsPerPage) + (childCount / 2);
+            if (mJoinWidgetsApps) {
+                if (currentPage < mNumAppsPages) {
+                    PagedViewCellLayout layout = (PagedViewCellLayout) getPageAt(currentPage);
+                    PagedViewCellLayoutChildren childrenLayout = layout.getChildrenLayout();
+                    int numItemsPerPage = mCellCountX * mCellCountY;
+                    int childCount = childrenLayout.getChildCount();
+                    if (childCount > 0) {
+                        i = (currentPage * numItemsPerPage) + (childCount / 2);
+                    }
+                } else {
+                    int numApps = mApps.size();
+                    PagedViewGridLayout layout = (PagedViewGridLayout) getPageAt(currentPage);
+                    int numItemsPerPage = mWidgetCountX * mWidgetCountY;
+                    int childCount = layout.getChildCount();
+                    if (childCount > 0) {
+                        i = numApps +
+                            ((currentPage - mNumAppsPages) * numItemsPerPage) + (childCount / 2);
+                    }
                 }
             } else {
-                int numApps = mApps.size();
-                PagedViewGridLayout layout = (PagedViewGridLayout) getPageAt(currentPage);
-                int numItemsPerPage = mWidgetCountX * mWidgetCountY;
-                int childCount = layout.getChildCount();
-                if (childCount > 0) {
-                    i = numApps +
-                        ((currentPage - mNumAppsPages) * numItemsPerPage) + (childCount / 2);
+                switch (mContentType) {
+                case Applications: {
+                     PagedViewCellLayout layout = (PagedViewCellLayout) getPageAt(currentPage);
+                     PagedViewCellLayoutChildren childrenLayout = layout.getChildrenLayout();
+                    int numItemsPerPage = mCellCountX * mCellCountY;
+                    int childCount = childrenLayout.getChildCount();
+                    if (childCount > 0) {
+                        i = (currentPage * numItemsPerPage) + (childCount / 2);
+                    }}
+                    break;
+                case Widgets: {
+                    PagedViewGridLayout layout = (PagedViewGridLayout) getPageAt(currentPage);
+                    int numItemsPerPage = mWidgetCountX * mWidgetCountY;
+                    int childCount = layout.getChildCount();
+                    if (childCount > 0) {
+                        i = (currentPage * numItemsPerPage) + (childCount / 2);
+                    }}
+                    break;
                 }
             }
         }
@@ -432,14 +478,27 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     /** Returns the page in the current orientation which is expected to contain the specified
      *  item index. */
     int getPageForComponent(int index) {
-        if (index < 0) return 0;
+        if (mJoinWidgetsApps) {
+            if (index < 0) return 0;
 
-        if (index < mApps.size()) {
-            int numItemsPerPage = mCellCountX * mCellCountY;
-            return (index / numItemsPerPage);
+            if (index < mApps.size()) {
+                int numItemsPerPage = mCellCountX * mCellCountY;
+                return (index / numItemsPerPage);
+            } else {
+                int numItemsPerPage = mWidgetCountX * mWidgetCountY;
+                return mNumAppsPages + ((index - mApps.size()) / numItemsPerPage);
+            }
         } else {
-            int numItemsPerPage = mWidgetCountX * mWidgetCountY;
-            return mNumAppsPages + ((index - mApps.size()) / numItemsPerPage);
+            switch (mContentType) {
+            case Applications: {
+                int numItemsPerPage = mCellCountX * mCellCountY;
+                return (index / numItemsPerPage);
+            }
+            case Widgets: {
+                int numItemsPerPage = mWidgetCountX * mWidgetCountY;
+                return (index / numItemsPerPage);
+            }}
+            return -1;
         }
     }
 
@@ -450,9 +509,11 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     private void updatePageCounts() {
-        mNumWidgetPages = (int) Math.ceil(mWidgets.size() /
-                (float) (mWidgetCountX * mWidgetCountY));
-        mNumAppsPages = (int) Math.ceil((float) mApps.size() / (mCellCountX * mCellCountY));
+        if (mJoinWidgetsApps) {
+            mNumWidgetPages = (int) Math.ceil(mWidgets.size() /
+                    (float) (mWidgetCountX * mWidgetCountY));
+            mNumAppsPages = (int) Math.ceil((float) mApps.size() / (mCellCountX * mCellCountY));
+        }
     }
 
     protected void onDataReady(int width, int height) {
@@ -502,6 +563,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         // returned while animating)
         if (!hostIsTransitioning) {
             post(new Runnable() {
+                @Override
                 public void run() {
                     showAllAppsCling();
                 }
@@ -510,6 +572,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     void showAllAppsCling() {
+        Cling allAppsCling = (Cling) getTabHost().findViewById(R.id.all_apps_cling);
         if (!mHasShownAllAppsCling && isDataReady()) {
             mHasShownAllAppsCling = true;
             // Calculate the position for the cling punch through
@@ -521,15 +584,26 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                     offset[0];
             pos[1] += offset[1];
             mLauncher.showFirstRunAllAppsCling(pos);
+        } else if (!mHasShownAllAppsSortCling && isDataReady() &&
+                allAppsCling != null && allAppsCling.isDismissed()) {
+            mHasShownAllAppsSortCling = true;
+            mLauncher.showFirstRunAllAppsSortCling();
         }
     }
 
-    
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         if (!isDataReady()) {
-            if (!mApps.isEmpty() && !mWidgets.isEmpty()) {
+            boolean isReady = false;
+            if (mContentType == AppsCustomizePagedView.ContentType.Widgets || mJoinWidgetsApps) {
+                isReady = (!mApps.isEmpty() && !mWidgets.isEmpty());
+            } else {
+                isReady = !mApps.isEmpty();
+            }
+
+            if (isReady) {
                 setDataIsReady();
                 setMeasuredDimension(width, height);
                 onDataReady(width, height);
@@ -586,6 +660,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         invalidateOnDataChange();
     }
 
+    @Override
     public void onClick(View v) {
         // When we have exited all apps or are in transition, disregard clicks
         if (!mLauncher.isAllAppsCustomizeOpen() ||
@@ -632,7 +707,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     /*
      * PagedViewWithDraggableItems implementation
      */
-    
+    @Override
     protected void determineDraggingStart(android.view.MotionEvent ev) {
         // Disable dragging by pulling an app down for now.
     }
@@ -650,6 +725,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 
         mWidgetCleanupState = WIDGET_PRELOAD_PENDING;
         mBindWidgetRunnable = new Runnable() {
+            @Override
             public void run() {
                 mWidgetLoadingId = mLauncher.getAppWidgetHost().allocateAppWidgetId();
                 if (AppWidgetManager.getInstance(mLauncher)
@@ -661,6 +737,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         post(mBindWidgetRunnable);
 
         mInflateWidgetRunnable = new Runnable() {
+            @Override
             public void run() {
                 AppWidgetHostView hostView = mLauncher.
                         getAppWidgetHost().createView(getContext(), mWidgetLoadingId, pInfo);
@@ -683,7 +760,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         post(mInflateWidgetRunnable);
     }
 
-    
+    @Override
     public void onShortPress(View v) {
         // We are anticipating a long press, and we use this time to load bind and instantiate
         // the widget. This will need to be cleaned up if it turns out no long press occurs.
@@ -730,7 +807,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         PagedViewWidget.resetShortPressTarget();
     }
 
-    
+    @Override
     public void cleanUpShortPress(View v) {
         if (!mDraggingWidget) {
             cleanupWidgetPreloading(false);
@@ -826,7 +903,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         return true;
     }
 
-    
+    @Override
     protected boolean beginDragging(final View v) {
         if (!super.beginDragging(v)) return false;
 
@@ -841,7 +918,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         // We delay entering spring-loaded mode slightly to make sure the UI
         // thready is free of any work.
         postDelayed(new Runnable() {
-            
+            @Override
             public void run() {
                 // We don't enter spring-loaded mode if the drag has been cancelled
                 if (mLauncher.getDragController().isDragging()) {
@@ -875,12 +952,12 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         mLauncher.unlockScreenOrientation(false);
     }
 
-    
+    @Override
     public View getContent() {
         return null;
     }
 
-    
+    @Override
     public void onLauncherTransitionPrepare(Launcher l, boolean animated, boolean toWorkspace) {
         mInTransition = true;
         if (toWorkspace) {
@@ -888,15 +965,15 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    
+    @Override
     public void onLauncherTransitionStart(Launcher l, boolean animated, boolean toWorkspace) {
     }
 
-    
+    @Override
     public void onLauncherTransitionStep(Launcher l, float t) {
     }
 
-    
+    @Override
     public void onLauncherTransitionEnd(Launcher l, boolean animated, boolean toWorkspace) {
         mInTransition = false;
         for (AsyncTaskPageData d : mDeferredSyncWidgetPageItems) {
@@ -910,6 +987,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         mForceDrawAllChildrenNextFrame = !toWorkspace;
     }
 
+    @Override
     public void onDropCompleted(View target, DragObject d, boolean isFlingToDelete,
             boolean success) {
         // Return early and wait for onFlingToDeleteCompleted if this was the result of a fling
@@ -942,7 +1020,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         mDraggingWidget = false;
     }
 
-    
+    @Override
     public void onFlingToDeleteCompleted() {
         // We just dismiss the drag when we fling, so cleanup here
         endDragging(null, true, true);
@@ -950,12 +1028,12 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         mDraggingWidget = false;
     }
 
-    
+    @Override
     public boolean supportsFlingToDelete() {
         return true;
     }
 
-    
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         cancelAllTasks();
@@ -993,27 +1071,34 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     public void setContentType(ContentType type) {
-        if (type == ContentType.Widgets) {
-            invalidatePageData(mNumAppsPages, true);
-        } else if (type == ContentType.Applications) {
-            invalidatePageData(0, true);
+        if (mJoinWidgetsApps) {
+            if (type == ContentType.Widgets) {
+                invalidatePageData(mNumAppsPages, true);
+            } else if (type == ContentType.Applications) {
+                invalidatePageData(0, true);
+            }
+        } else {
+            mContentType = type;
+            invalidatePageData(0, (type != ContentType.Applications));
         }
     }
 
     protected void snapToPage(int whichPage, int delta, int duration) {
         super.snapToPage(whichPage, delta, duration);
-        updateCurrentTab(whichPage);
+        if (mJoinWidgetsApps) {
+            updateCurrentTab(whichPage);
 
-        // Update the thread priorities given the direction lookahead
-        Iterator<AppsCustomizeAsyncTask> iter = mRunningTasks.iterator();
-        while (iter.hasNext()) {
-            AppsCustomizeAsyncTask task = (AppsCustomizeAsyncTask) iter.next();
-            int pageIndex = task.page;
-            if ((mNextPage > mCurrentPage && pageIndex >= mCurrentPage) ||
-                (mNextPage < mCurrentPage && pageIndex <= mCurrentPage)) {
-                task.setThreadPriority(getThreadPriorityForPage(pageIndex));
-            } else {
-                task.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+            // Update the thread priorities given the direction lookahead
+            Iterator<AppsCustomizeAsyncTask> iter = mRunningTasks.iterator();
+            while (iter.hasNext()) {
+                AppsCustomizeAsyncTask task = (AppsCustomizeAsyncTask) iter.next();
+                int pageIndex = task.page;
+                if ((mNextPage > mCurrentPage && pageIndex >= mCurrentPage) ||
+                        (mNextPage < mCurrentPage && pageIndex <= mCurrentPage)) {
+                    task.setThreadPriority(getThreadPriorityForPage(pageIndex));
+                } else {
+                    task.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+                }
             }
         }
     }
@@ -1032,6 +1117,14 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 }
             }
         }
+    }
+
+    public boolean isContentType(ContentType type) {
+        return (mContentType == type);
+    }
+
+    public void setCurrentPageToWidgets() {
+        invalidatePageData(0);
     }
 
     /*
@@ -1060,7 +1153,16 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         layout.measure(widthSpec, heightSpec);
         setVisibilityOnChildren(layout, View.VISIBLE);
     }
-
+    public void syncAppsPages() {
+        // Ensure that we have the right number of pages
+        Context context = getContext();
+        int numPages = (int) Math.ceil((float) mApps.size() / (mCellCountX * mCellCountY));
+        for (int i = 0; i < numPages; ++i) {
+            PagedViewCellLayout layout = new PagedViewCellLayout(context);
+            setupPage(layout);
+            addView(layout);
+        }
+    }
     public void syncAppsPageItems(int page, boolean immediate) {
         // ensure that we have the right number of items on the pages
         int numCells = mCellCountX * mCellCountY;
@@ -1159,7 +1261,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         final int sleepMs = getSleepForPage(page);
         AsyncTaskPageData pageData = new AsyncTaskPageData(page, widgets, cellWidth, cellHeight,
             new AsyncTaskCallback() {
-                
+                @Override
                 public void run(AppsCustomizeAsyncTask task, AsyncTaskPageData data) {
                     try {
                         try {
@@ -1174,17 +1276,21 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 }
             },
             new AsyncTaskCallback() {
-                
+                @Override
                 public void run(AppsCustomizeAsyncTask task, AsyncTaskPageData data) {
                     mRunningTasks.remove(task);
                     if (task.isCancelled()) return;
+                    if (!mJoinWidgetsApps) {
+                        if (task.page > getPageCount()) return;
+                        if (task.pageContentType != mContentType) return;
+                    }
                     // do cleanup inside onSyncWidgetPageItems
                     onSyncWidgetPageItems(data);
                 }
             });
 
         // Ensure that the task is appropriately prioritized and runs in parallel
-        AppsCustomizeAsyncTask t = new AppsCustomizeAsyncTask(page,
+        AppsCustomizeAsyncTask t = new AppsCustomizeAsyncTask(page, mContentType,
                 AsyncTaskPageData.Type.LoadWidgetPreviewData);
         t.setThreadPriority(getThreadPriorityForPage(page));
         t.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pageData);
@@ -1382,6 +1488,19 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
         return preview;
     }
+    public void syncWidgetPages() {
+        // Ensure that we have the right number of pages
+        Context context = getContext();
+        int numPages = (int) Math.ceil(mWidgets.size() /
+                (float) (mWidgetCountX * mWidgetCountY));
+        for (int j = 0; j < numPages; ++j) {
+            PagedViewGridLayout layout = new PagedViewGridLayout(context, mWidgetCountX,
+                    mWidgetCountY);
+            setupPage(layout);
+            addView(layout, new PagedViewGridLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT));
+        }
+    }
 
     public void syncWidgetPageItems(final int page, final boolean immediate) {
         int numItemsPerPage = mWidgetCountX * mWidgetCountY;
@@ -1560,33 +1679,55 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    
+    @Override
     public void syncPages() {
         removeAllViews();
         cancelAllTasks();
 
-        Context context = getContext();
-        for (int j = 0; j < mNumWidgetPages; ++j) {
-            PagedViewGridLayout layout = new PagedViewGridLayout(context, mWidgetCountX,
-                    mWidgetCountY);
-            setupPage(layout);
-            addView(layout, new PagedView.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT));
-        }
+        if (mJoinWidgetsApps) {
+            Context context = getContext();
+            for (int j = 0; j < mNumWidgetPages; ++j) {
+                PagedViewGridLayout layout = new PagedViewGridLayout(context, mWidgetCountX,
+                        mWidgetCountY);
+                setupPage(layout);
+                addView(layout, new PagedView.LayoutParams(LayoutParams.MATCH_PARENT,
+                            LayoutParams.MATCH_PARENT));
+            }
 
-        for (int i = 0; i < mNumAppsPages; ++i) {
-            PagedViewCellLayout layout = new PagedViewCellLayout(context);
-            setupPage(layout);
-            addView(layout);
+            for (int i = 0; i < mNumAppsPages; ++i) {
+                PagedViewCellLayout layout = new PagedViewCellLayout(context);
+                setupPage(layout);
+                addView(layout);
+            }
+        } else {
+            switch (mContentType) {
+            case Applications:
+                syncAppsPages();
+                break;
+            case Widgets:
+                syncWidgetPages();
+                break;
+            }
         }
     }
 
-    
+    @Override
     public void syncPageItems(int page, boolean immediate) {
-        if (page < mNumAppsPages) {
-            syncAppsPageItems(page, immediate);
+        if (mJoinWidgetsApps) {
+            if (page < mNumAppsPages) {
+                syncAppsPageItems(page, immediate);
+            } else {
+                syncWidgetPageItems(page, immediate);
+            }
         } else {
-            syncWidgetPageItems(page, immediate);
+            switch (mContentType) {
+            case Applications:
+                syncAppsPageItems(page, immediate);
+                break;
+            case Widgets:
+                syncWidgetPageItems(page, immediate);
+                break;
+            }
         }
     }
 
@@ -1596,13 +1737,13 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         return getChildAt(indexToPage(index));
     }
 
-    
+    @Override
     protected int indexToPage(int index) {
         return getChildCount() - index - 1;
     }
 
     // In apps customize, we have a scrolling effect which emulates pulling cards off of a stack.
-    
+    @Override
     protected void screenScrolled(int screenCenter) {
         super.screenScrolled(screenCenter);
 
@@ -1683,32 +1824,44 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         return mContentWidth;
     }
 
-    
+    @Override
     protected void onPageEndMoving() {
-        super.onPageEndMoving();
+        if (mFadeScrollingIndicator) {
+            hideScrollingIndicator(false);
+        }
         mForceDrawAllChildrenNextFrame = true;
+
         // We reset the save index when we change pages so that it will be recalculated on next
         // rotation
         mSaveInstanceStateItemIndex = -1;
     }
 
+    @Override
+    protected void flashScrollingIndicator(boolean animated) {
+        if (mFadeScrollingIndicator) {
+            super.flashScrollingIndicator(animated);
+        } else {
+            showScrollingIndicator(false);
+        }
+    }
+
     /*
      * AllAppsView implementation
      */
-    
+    @Override
     public void setup(Launcher launcher, DragController dragController) {
         mLauncher = launcher;
         mDragController = dragController;
     }
-    
+    @Override
     public void zoom(float zoom, boolean animate) {
         // TODO-APPS_CUSTOMIZE: Call back to mLauncher.zoomed()
     }
-    
+    @Override
     public boolean isVisible() {
         return (getVisibility() == VISIBLE);
     }
-    
+    @Override
     public boolean isAnimating() {
         return false;
     }
@@ -1730,10 +1883,44 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    
+    public SortMode getSortMode() {
+        return mSortMode;
+    }
+
+    public void setSortMode(SortMode sortMode) {
+        if (mSortMode == sortMode) {
+            return;
+        }
+
+        mSortMode = sortMode;
+
+        if (mSortMode == SortMode.Title) {
+            Collections.sort(mApps, LauncherModel.APP_NAME_COMPARATOR);
+        } else if (mSortMode == SortMode.InstallDate) {
+            Collections.sort(mApps, LauncherModel.APP_INSTALL_TIME_COMPARATOR);
+        }
+
+        if (mJoinWidgetsApps) {
+            for (int i = 0; i < mNumAppsPages; i++) {
+               syncAppsPageItems(i, true);
+            }
+        } else {
+            if (mContentType == ContentType.Applications) {
+                for (int i = 0; i < getChildCount(); i++) {
+                    syncAppsPageItems(i, true);
+                }
+            }
+        }
+    }
+
+    @Override
     public void setApps(ArrayList<ApplicationInfo> list) {
         mApps = list;
-        Collections.sort(mApps, LauncherModel.APP_NAME_COMPARATOR);
+        if (mSortMode == SortMode.Title) {
+            Collections.sort(mApps, LauncherModel.APP_NAME_COMPARATOR);
+        } else if (mSortMode == SortMode.InstallDate) {
+            Collections.sort(mApps, LauncherModel.APP_INSTALL_TIME_COMPARATOR);
+        }
         updatePageCounts();
         invalidateOnDataChange();
     }
@@ -1742,13 +1929,18 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         int count = list.size();
         for (int i = 0; i < count; ++i) {
             ApplicationInfo info = list.get(i);
-            int index = Collections.binarySearch(mApps, info, LauncherModel.APP_NAME_COMPARATOR);
+            int index = 0;
+            if (mSortMode == SortMode.Title) {
+                index = Collections.binarySearch(mApps, info, LauncherModel.APP_NAME_COMPARATOR);
+            } else if (mSortMode == SortMode.InstallDate) {
+                index = Collections.binarySearch(mApps, info, LauncherModel.APP_INSTALL_TIME_COMPARATOR);
+            }
             if (index < 0) {
                 mApps.add(-(index + 1), info);
             }
         }
     }
-    
+    @Override
     public void addApps(ArrayList<ApplicationInfo> list) {
         addAppsWithoutInvalidate(list);
         updatePageCounts();
@@ -1776,13 +1968,13 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             }
         }
     }
-    
+    @Override
     public void removeApps(ArrayList<ApplicationInfo> list) {
         removeAppsWithoutInvalidate(list);
         updatePageCounts();
         invalidateOnDataChange();
     }
-    
+    @Override
     public void updateApps(ArrayList<ApplicationInfo> list) {
         // We remove and re-add the updated applications list because it's properties may have
         // changed (ie. the title), and this will ensure that the items will be in their proper
@@ -1793,16 +1985,26 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         invalidateOnDataChange();
     }
 
-    
+    @Override
     public void reset() {
         // If we have reset, then we should not continue to restore the previous state
         mSaveInstanceStateItemIndex = -1;
 
-        AppsCustomizeTabHost tabHost = getTabHost();
-        String tag = tabHost.getCurrentTabTag();
-        if (tag != null) {
-            if (!tag.equals(tabHost.getTabTagForContentType(ContentType.Applications))) {
-                tabHost.setCurrentTabFromContent(ContentType.Applications);
+        if (mJoinWidgetsApps) {
+            AppsCustomizeTabHost tabHost = getTabHost();
+            String tag = tabHost.getCurrentTabTag();
+            if (tag != null) {
+                if (!tag.equals(tabHost.getTabTagForContentType(ContentType.Applications))) {
+                    tabHost.setCurrentTabFromContent(ContentType.Applications);
+                }
+            }
+        } else {
+            if (mContentType != ContentType.Applications) {
+                // Reset to the first page of the Apps pane
+                AppsCustomizeTabHost tabs = (AppsCustomizeTabHost)
+                    mLauncher.findViewById(R.id.apps_customize_pane);
+                tabs.selectAppsTab();
+                return;
             }
         }
 
@@ -1815,7 +2017,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         return (AppsCustomizeTabHost) mLauncher.findViewById(R.id.apps_customize_pane);
     }
 
-    
+    @Override
     public void dumpState() {
         // TODO: Dump information related to current list of Applications, Widgets, etc.
         ApplicationInfo.dumpApplicationInfoList(TAG, "mApps", mApps);
@@ -1840,7 +2042,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    
+    @Override
     public void surrender() {
         // TODO: If we are in the middle of any process (ie. for holographic outlines, etc) we
         // should stop this now.
@@ -1849,7 +2051,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         cancelAllTasks();
     }
 
-    
+    @Override
     public void iconPressed(PagedViewIcon icon) {
         // Reset the previously pressed icon and store a reference to the pressed icon so that
         // we can reset it on return to Launcher (in Launcher.onResume())
@@ -1886,22 +2088,34 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         return windowMaxIndex;
     }
 
-    
+    @Override
     protected String getCurrentPageDescription() {
         int page = (mNextPage != INVALID_PAGE) ? mNextPage : mCurrentPage;
         int stringId = R.string.default_scroll_format;
-        int count = 0;
-        
-        if (page < mNumAppsPages) {
-            stringId = R.string.apps_customize_apps_scroll_format;
-            count = mNumAppsPages;
+
+        if (mJoinWidgetsApps) {
+            int count = 0;
+
+            if (page < mNumAppsPages) {
+                stringId = R.string.apps_customize_apps_scroll_format;
+                count = mNumAppsPages;
+            } else {
+                page -= mNumAppsPages;
+                stringId = R.string.apps_customize_widgets_scroll_format;
+                count = mNumWidgetPages;
+            }
+
+            return String.format(mContext.getString(stringId), page + 1, count);
         } else {
-            page -= mNumAppsPages;
-            stringId = R.string.apps_customize_widgets_scroll_format;
-            count = mNumWidgetPages;
+            switch (mContentType) {
+            case Applications:
+                stringId = R.string.apps_customize_apps_scroll_format;
+                break;
+            case Widgets:
+                stringId = R.string.apps_customize_widgets_scroll_format;
+                break;
+            }
+            return String.format(mContext.getString(stringId), page + 1, getChildCount());
         }
-
-        return String.format(getContext().getString(stringId), page + 1, count);
     }
-
 }
