@@ -2,7 +2,8 @@
 <!--
 /*
 **
-** Copyright 2012, Rashed Abdel-Tawab and Multiple Android Coding
+** Copyright 2012, The Android Open Source Project, The CyanogenMod Project, Rashed Abdel-Tawab and Multiple Android Coding
+** Thanks to XDA Developers, and Android Central Forums
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -25,7 +26,8 @@
         
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="16" android:maxSdkVersion="16"/>
+        android:targetSdkVersion="16"
+        android:maxSdkVersion="16"/>
 
     <original-package android:name="com.android.launcher2" />
 

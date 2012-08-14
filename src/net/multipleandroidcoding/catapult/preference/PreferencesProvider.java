@@ -117,15 +117,15 @@ public final class PreferencesProvider {
         	//private static final String comingsoon = "Coming Soon";
         }
         
-        public static class Languages {
+        /*public static class Languages {
         	ImageView img = (ImageView) findViewById(R.xml.preferences.ui_lang);
-        	img.setOnClickListener(new OnClickListener() {
+        	img.setOnClickListener = new OnClickListener() {
         		public void onClick(View v) {
         			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.gonzobrains.com"));
         			Activity.startActivity(browserIntent);
         		}
-        	});
-        }
+        	};
+        }*/
 
         public static class General {
             public static boolean getAutoRotate(Context context, boolean def) {

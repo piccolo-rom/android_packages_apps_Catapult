@@ -1013,62 +1013,67 @@ containing a value of this type.
         public static final int workspace_bg=0x7f02007a;
     }
     public static final class id {
-        public static final int all_apps_button=0x7f070032;
-        public static final int all_apps_cling=0x7f07000c;
+        public static final int all_apps_button=0x7f070035;
+        public static final int all_apps_cling=0x7f07000e;
         public static final int all_apps_cling_add_item=0x7f070003;
         public static final int all_apps_cling_title=0x7f070002;
-        public static final int animation_buffer=0x7f07000a;
-        public static final int application_icon=0x7f070005;
-        public static final int apps_customize_content=0x7f070006;
-        public static final int apps_customize_pane=0x7f070026;
-        public static final int apps_customize_pane_content=0x7f070009;
-        public static final int apps_customize_progress_bar=0x7f07000d;
+        public static final int all_apps_sort_cling=0x7f07000f;
+        public static final int all_apps_sort_cling_add_item=0x7f070006;
+        public static final int all_apps_sort_cling_title=0x7f070005;
+        public static final int animation_buffer=0x7f07000c;
+        public static final int application_icon=0x7f070007;
+        public static final int apps_customize_content=0x7f070008;
+        public static final int apps_customize_pane=0x7f070029;
+        public static final int apps_customize_pane_content=0x7f07000b;
+        public static final int apps_customize_progress_bar=0x7f070010;
+        public static final int apps_sort_install_date=0x7f07003c;
+        public static final int apps_sort_title=0x7f07003b;
         public static final int cling_dismiss=0x7f070004;
-        public static final int delete_target_text=0x7f070015;
-        public static final int dock_divider=0x7f070021;
-        public static final int drag_layer=0x7f07001e;
-        public static final int drag_target_bar=0x7f07002b;
-        public static final int folder_cling=0x7f070028;
-        public static final int folder_cling_create_folder=0x7f07001a;
-        public static final int folder_cling_title=0x7f070019;
-        public static final int folder_content=0x7f070033;
-        public static final int folder_icon_name=0x7f07001c;
-        public static final int folder_name=0x7f07002d;
-        public static final int gallery=0x7f070034;
+        public static final int delete_target_text=0x7f070018;
+        public static final int dock_divider=0x7f070024;
+        public static final int drag_layer=0x7f070021;
+        public static final int drag_target_bar=0x7f07002e;
+        public static final int folder_cling=0x7f07002b;
+        public static final int folder_cling_create_folder=0x7f07001d;
+        public static final int folder_cling_title=0x7f07001c;
+        public static final int folder_content=0x7f070036;
+        public static final int folder_icon_name=0x7f07001f;
+        public static final int folder_name=0x7f070030;
+        public static final int gallery=0x7f070037;
         public static final int horizontal=0x7f070001;
-        public static final int hotseat=0x7f070022;
-        public static final int info_target_text=0x7f070016;
-        public static final int label=0x7f07002c;
-        public static final int layout=0x7f07001d;
-        public static final int market_button=0x7f070008;
-        public static final int number_picker=0x7f070029;
-        public static final int number_picker_1=0x7f070012;
-        public static final int number_picker_2=0x7f070014;
-        public static final int paged_view_indicator=0x7f07000b;
-        public static final int picker_title_1=0x7f070011;
-        public static final int picker_title_2=0x7f070013;
-        public static final int preview_background=0x7f07001b;
-        public static final int provider=0x7f070018;
-        public static final int provider_icon=0x7f070017;
-        public static final int qsb_bar=0x7f070023;
-        public static final int qsb_divider=0x7f070020;
-        public static final int qsb_search_bar=0x7f07002a;
-        public static final int search_button=0x7f07002e;
-        public static final int search_button_container=0x7f07002f;
-        public static final int search_divider=0x7f070031;
-        public static final int set=0x7f070035;
-        public static final int tabs_container=0x7f070007;
+        public static final int hotseat=0x7f070025;
+        public static final int info_target_text=0x7f070019;
+        public static final int label=0x7f07002f;
+        public static final int layout=0x7f070020;
+        public static final int market_button=0x7f07000a;
+        public static final int number_picker=0x7f07002c;
+        public static final int number_picker_1=0x7f070015;
+        public static final int number_picker_2=0x7f070017;
+        public static final int paged_view_indicator=0x7f07000d;
+        public static final int picker_title_1=0x7f070014;
+        public static final int picker_title_2=0x7f070016;
+        public static final int preview_background=0x7f07001e;
+        public static final int provider=0x7f07001b;
+        public static final int provider_icon=0x7f07001a;
+        public static final int qsb_bar=0x7f070026;
+        public static final int qsb_divider=0x7f070023;
+        public static final int qsb_search_bar=0x7f07002d;
+        public static final int search_button=0x7f070031;
+        public static final int search_button_container=0x7f070032;
+        public static final int search_divider=0x7f070034;
+        public static final int set=0x7f070038;
+        public static final int tabs_container=0x7f070009;
         public static final int vertical=0x7f070000;
-        public static final int voice_button=0x7f070025;
-        public static final int voice_button_container=0x7f070030;
-        public static final int voice_button_proxy=0x7f070024;
-        public static final int wallpaper_chooser_fragment=0x7f070036;
-        public static final int wallpaper_image=0x7f070037;
-        public static final int widget_dims=0x7f070010;
-        public static final int widget_name=0x7f07000f;
-        public static final int widget_preview=0x7f07000e;
-        public static final int workspace=0x7f07001f;
-        public static final int workspace_cling=0x7f070027;
+        public static final int voice_button=0x7f070028;
+        public static final int voice_button_container=0x7f070033;
+        public static final int voice_button_proxy=0x7f070027;
+        public static final int wallpaper_chooser_fragment=0x7f070039;
+        public static final int wallpaper_image=0x7f07003a;
+        public static final int widget_dims=0x7f070013;
+        public static final int widget_name=0x7f070012;
+        public static final int widget_preview=0x7f070011;
+        public static final int workspace=0x7f070022;
+        public static final int workspace_cling=0x7f07002a;
     }
     public static final class integer {
         public static final int apps_customize_cling_focused_x=0x7f0b0032;
@@ -1197,35 +1202,36 @@ containing a value of this type.
     public static final class layout {
         public static final int add_list_item=0x7f030000;
         public static final int all_apps_cling=0x7f030001;
-        public static final int application=0x7f030002;
-        public static final int apps_customize_application=0x7f030003;
-        public static final int apps_customize_pane=0x7f030004;
-        public static final int apps_customize_progressbar=0x7f030005;
-        public static final int apps_customize_widget=0x7f030006;
-        public static final int appwidget_error=0x7f030007;
-        public static final int double_number_picker_dialog=0x7f030008;
-        public static final int drop_target_bar=0x7f030009;
-        public static final int external_widget_drop_list_item=0x7f03000a;
-        public static final int folder_cling=0x7f03000b;
-        public static final int folder_icon=0x7f03000c;
-        public static final int hotseat=0x7f03000d;
-        public static final int launcher=0x7f03000e;
-        public static final int market_button=0x7f03000f;
-        public static final int number_picker_dialog=0x7f030010;
-        public static final int overflow_menu_button=0x7f030011;
-        public static final int qsb_bar=0x7f030012;
-        public static final int rename_folder=0x7f030013;
-        public static final int scroll_indicator=0x7f030014;
-        public static final int search_bar=0x7f030015;
-        public static final int tab_widget_indicator=0x7f030016;
-        public static final int user_folder=0x7f030017;
-        public static final int wallpaper_chooser=0x7f030018;
-        public static final int wallpaper_chooser_base=0x7f030019;
-        public static final int wallpaper_item=0x7f03001a;
-        public static final int workspace=0x7f03001b;
-        public static final int workspace_cling=0x7f03001c;
-        public static final int workspace_divider=0x7f03001d;
-        public static final int workspace_screen=0x7f03001e;
+        public static final int all_apps_sort_cling=0x7f030002;
+        public static final int application=0x7f030003;
+        public static final int apps_customize_application=0x7f030004;
+        public static final int apps_customize_pane=0x7f030005;
+        public static final int apps_customize_progressbar=0x7f030006;
+        public static final int apps_customize_widget=0x7f030007;
+        public static final int appwidget_error=0x7f030008;
+        public static final int double_number_picker_dialog=0x7f030009;
+        public static final int drop_target_bar=0x7f03000a;
+        public static final int external_widget_drop_list_item=0x7f03000b;
+        public static final int folder_cling=0x7f03000c;
+        public static final int folder_icon=0x7f03000d;
+        public static final int hotseat=0x7f03000e;
+        public static final int launcher=0x7f03000f;
+        public static final int market_button=0x7f030010;
+        public static final int number_picker_dialog=0x7f030011;
+        public static final int overflow_menu_button=0x7f030012;
+        public static final int qsb_bar=0x7f030013;
+        public static final int rename_folder=0x7f030014;
+        public static final int scroll_indicator=0x7f030015;
+        public static final int search_bar=0x7f030016;
+        public static final int tab_widget_indicator=0x7f030017;
+        public static final int user_folder=0x7f030018;
+        public static final int wallpaper_chooser=0x7f030019;
+        public static final int wallpaper_chooser_base=0x7f03001a;
+        public static final int wallpaper_item=0x7f03001b;
+        public static final int workspace=0x7f03001c;
+        public static final int workspace_cling=0x7f03001d;
+        public static final int workspace_divider=0x7f03001e;
+        public static final int workspace_screen=0x7f03001f;
     }
     public static final class menu {
         public static final int apps_tab=0x7f0e0000;
@@ -1315,6 +1321,9 @@ containing a value of this type.
         /**  The text on the button to dismiss a cling [CHAR_LIMIT=none] 
          */
         public static final int cling_dismiss=0x7f0a0061;
+        /**  Other 
+         */
+        public static final int coming_soon=0x7f0a00a6;
         /**  Error message when user has filled all their home screens 
          */
         public static final int completely_out_of_space=0x7f0a001e;
@@ -1518,6 +1527,12 @@ s
         /**  Option in "Select wallpaper from" dialog box 
          */
         public static final int pick_wallpaper=0x7f0a000b;
+        public static final int preferences_app_copyright=0x7f0a00ab;
+        public static final int preferences_app_title=0x7f0a00a9;
+        public static final int preferences_app_version=0x7f0a00aa;
+        /**  Application Info 
+         */
+        public static final int preferences_application_info=0x7f0a00a8;
         /**  Application 
          */
         public static final int preferences_application_title=0x7f0a006e;
@@ -1587,6 +1602,11 @@ s
         /**  UI 
          */
         public static final int preferences_interface_title=0x7f0a006d;
+        public static final int preferences_lang_help=0x7f0a00a4;
+        public static final int preferences_lang_help_link=0x7f0a00a5;
+        /**  Languages and Translations 
+         */
+        public static final int preferences_languages=0x7f0a00a3;
         /**              
  Preferences 
              
@@ -1610,6 +1630,7 @@ s
         /**  Message displayed when a shortcut is uninstalled by an external application 
          */
         public static final int shortcut_uninstalled=0x7f0a0023;
+        public static final int still_in_design=0x7f0a00a7;
         /**  Title of dialog when user is selecting an application to add to homescreen 
          */
         public static final int title_select_application=0x7f0a0026;
