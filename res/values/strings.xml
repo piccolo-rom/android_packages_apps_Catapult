@@ -21,7 +21,7 @@
     <!-- General -->
     <skip />
     <!-- Application name -->
-    <string name="application_name" translatable="false">Catapult</string>
+    <string name="application_name" translatable="false">Catapult Launcher</string>
     <!-- Application copyright -->
     <string name="application_copyright">Copyright \u00A9 Rashed Abdel-Tawab 2012</string>
     <!-- Application version -->
@@ -302,8 +302,6 @@ s -->
     <string name="preferences_title">Preferences</string>
     <!-- UI -->
     <string name="preferences_interface_title">Interface</string>
-    <!-- Application -->
-    <string name="preferences_application_title">Application</string>
 
     <!-- UI -->
     <!-- Homescreen -->
@@ -377,8 +375,9 @@ s -->
     <string name="coming_soon">Coming Soon!</string>
     <string name="still_in_design">This element is still in design</string>
     
-    <!-- Application Info -->
-    <string name="preferences_application_info">App Info</string>
+    <!-- Application -->
+    <string name="preferences_application_title">Application Information</string>
+    <string name="preferences_application_info">General Information</string>
     <string name="preferences_app_title">App Name</string>
     <string name="preferences_app_version">App Version</string>
     <string name="preferences_app_copyright">App Copyright</string>

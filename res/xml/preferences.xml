@@ -142,18 +142,17 @@
     <PreferenceCategory android:title="@string/preferences_application_title">
         <PreferenceScreen android:key="app_general"
             android:title="@string/preferences_application_info">
-		<Preference android:key="app_name"
-            style="?android:preferenceInformationStyle"
-            android:title="@string/application_name"
-            android:summary="@string/preferences_app_title" />
-		<Preference android:key="app_version"
-            style="?android:preferenceInformationStyle"
-            android:title="@string/application_version"
-            android:summary="@string/preferences_app_version" />
-		<Preference android:key="app_copyright"
-            style="?android:preferenceInformationStyle"
-            android:title="@string/application_copyright"
-            android:summary="@string/preferences_app_copyright" />
+			<Preference android:key="app_name"
+            	style="?android:preferenceInformationStyle"
+            	android:title="@string/application_name"
+            	android:summary="@string/preferences_app_title" />
+			<Preference android:key="app_version"
+            	style="?android:preferenceInformationStyle"
+            	android:title="@string/application_version"
+            	android:summary="@string/preferences_app_version" />
+			<Preference android:key="app_copyright"
+            	style="?android:preferenceInformationStyle"
+            	android:summary="@string/application_copyright" />
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
