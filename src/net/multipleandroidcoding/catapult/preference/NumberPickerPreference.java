@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 The CyanogenMod Project
+ * Copyright (C) 2012 Rashed Abdel-Tawab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,9 +30,11 @@ import android.widget.NumberPicker;
 
 import net.multipleandroidcoding.catapult.R;
 
-/*
+/**
  * @author Danesh
  * @author nebkat
+ * @author Rashed
+ * @since 1.0.0
  */
 
 public class NumberPickerPreference extends DialogPreference {

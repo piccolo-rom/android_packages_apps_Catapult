@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 The CyanogenMod Project
+ * Copyright (C) 2012 Rashed Abdel-Tawab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +17,14 @@
 
 package net.multipleandroidcoding.catapult.preference;
 
+import net.multipleandroidcoding.catapult.R;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
 
 public final class PreferencesProvider {
     public static final String PREFERENCES_KEY = "net.multipleandroidcoding.catapult_preferences";
@@ -93,7 +100,7 @@ public final class PreferencesProvider {
             public static class Indicator {
                 public static boolean getShowScrollingIndicator(Context context) {
                    final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
-                    return preferences.getBoolean("ui_drawer_indicator_enable", true);
+                   return preferences.getBoolean("ui_drawer_indicator_enable", true);
                 }
                 public static boolean getFadeScrollingIndicator(Context context) {
                     final SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_KEY, 0);
@@ -103,11 +110,21 @@ public final class PreferencesProvider {
         }
 
         public static class Dock {
-
+        	//private static final String comingsoon = "Coming Soon";
         }
 
         public static class Icons {
-
+        	//private static final String comingsoon = "Coming Soon";
+        }
+        
+        public static class Languages {
+        	ImageView img = (ImageView) findViewById(R.xml.preferences.ui_lang);
+        	img.setOnClickListener(new OnClickListener() {
+        		public void onClick(View v) {
+        			Intent browserIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.gonzobrains.com"));
+        			Activity.startActivity(browserIntent);
+        		}
+        	});
         }
 
         public static class General {
@@ -118,7 +135,7 @@ public final class PreferencesProvider {
         }
     }
 
-    public static class Application {
+    public final class Application {
 
     }
 }

@@ -105,13 +105,28 @@
         <!-- Dock -->
         <PreferenceScreen android:key="ui_dock"
             android:title="@string/preferences_interface_dock_title">
-
+            <Preference android:key="dock_comingsoon"
+            	style="?android:preferenceInformationStyle"
+            	android:title="@string/coming_soon"
+            	android:summary="@string/still_in_design" />
         </PreferenceScreen>
 
         <!-- Icons -->
         <PreferenceScreen android:key="ui_icons"
             android:title="@string/preferences_interface_icons_title">
-
+            <Preference android:key="icons_comingsoon"
+            	style="?android:preferenceInformationStyle"
+            	android:title="@string/coming_soon"
+            	android:summary="@string/still_in_design" />
+        </PreferenceScreen>
+        
+        <!-- Languages and Translations -->
+        <PreferenceScreen android:key="ui_lang"
+            android:title="@string/preferences_languages">
+            <Preference android:key="lang_help_us"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/preferences_lang_help"
+                android:summary="@string/preferences_lang_help_link" />
         </PreferenceScreen>
 
         <!-- General -->
@@ -125,8 +140,20 @@
 
     <!-- Application -->
     <PreferenceCategory android:title="@string/preferences_application_title">
-        <Preference android:key="application_version"
+        <PreferenceScreen android:key="app_general"
+            android:title="@string/preferences_application_info">
+		<Preference android:key="app_name"
             style="?android:preferenceInformationStyle"
-            android:summary="@string/application_copyright" />
+            android:title="@string/application_name"
+            android:summary="@string/preferences_app_title" />
+		<Preference android:key="app_version"
+            style="?android:preferenceInformationStyle"
+            android:title="@string/application_version"
+            android:summary="@string/preferences_app_version" />
+		<Preference android:key="app_copyright"
+            style="?android:preferenceInformationStyle"
+            android:title="@string/application_copyright"
+            android:summary="@string/preferences_app_copyright" />
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
