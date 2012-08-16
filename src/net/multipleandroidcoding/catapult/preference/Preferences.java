@@ -17,8 +17,11 @@
 
 package net.multipleandroidcoding.catapult.preference;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -42,5 +45,14 @@ public class Preferences extends PreferenceActivity {
 
         //Preference version = findPreference("application_version");
         //version.setTitle(getString(R.string.application_name) + " " + getString(R.string.application_version));
+                
+        Preference githubbutton = (Preference)findPreference("lang_help_us");
+        githubbutton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference arg0) { 
+            	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/LG-Android-Coding/android_packages_apps_Catapult#readme"));
+            	startActivity(browserIntent);   
+                return true;
+            }
+        });
     }
 }

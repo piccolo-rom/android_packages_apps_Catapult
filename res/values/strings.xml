@@ -23,9 +23,9 @@
     <!-- Application name -->
     <string name="application_name" translatable="false">Catapult Launcher</string>
     <!-- Application copyright -->
-    <string name="application_copyright">Copyright \u00A9 Rashed Abdel-Tawab 2012</string>
+    <string name="application_copyright">Copyright \u00A9 The Catapult Project 2012</string>
     <!-- Application version -->
-    <string name="application_version">1.0.0 Release Candidate 1</string>
+    <string name="application_version">1.0.0 Release Candidate 2</string>
     <!-- Application version code-->
     <string name="application_version_code">1</string>
     <!-- Accessibility-facing application name -->
@@ -361,6 +361,9 @@ s -->
 
     <!-- Icons -->
     <string name="preferences_interface_icons_title">Icons</string>
+    
+    <!-- Themes -->
+    <string name="preferences_interface_themes_title">Themes</string>
 
     <!-- General -->
     <string name="preferences_interface_general_title">General</string>
@@ -381,5 +384,8 @@ s -->
     <string name="preferences_app_title">App Name</string>
     <string name="preferences_app_version">App Version</string>
     <string name="preferences_app_copyright">App Copyright</string>
+    <string name="preferences_app_contributors">App Contributors</string>
+    <string name="preferences_app_coders">Coders</string>
+    <string name="preferences_app_graphics">Graphic Design</string>
 
 </resources>

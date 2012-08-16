@@ -120,6 +120,15 @@
             	android:summary="@string/still_in_design" />
         </PreferenceScreen>
         
+        <!-- Themes -->
+        <PreferenceScreen android:key="ui_themes"
+            android:title="@string/preferences_interface_themes_title">
+            <Preference android:key="themes_comingsoon"
+            	style="?android:preferenceInformationStyle"
+            	android:title="@string/coming_soon"
+            	android:summary="@string/still_in_design" />
+        </PreferenceScreen>
+        
         <!-- Languages and Translations -->
         <PreferenceScreen android:key="ui_lang"
             android:title="@string/preferences_languages">
@@ -140,6 +149,8 @@
 
     <!-- Application -->
     <PreferenceCategory android:title="@string/preferences_application_title">
+        
+        <!-- General -->
         <PreferenceScreen android:key="app_general"
             android:title="@string/preferences_application_info">
 			<Preference android:key="app_name"
@@ -154,5 +165,21 @@
             	style="?android:preferenceInformationStyle"
             	android:summary="@string/application_copyright" />
         </PreferenceScreen>
-    </PreferenceCategory>
+        
+        <!-- Contributors -->
+        <PreferenceScreen android:key="app_contributors"
+            android:title="@string/preferences_app_contributors">
+			<PreferenceScreen android:key="app_coders"
+                android:title="@string/preferences_app_coders" >
+			    <Preference android:key="Rashed_Abdel-Tawab_code"
+			    	style="?android:preferenceInformationStyle"
+            		android:title="Rashed Abdel-Tawab" />
+			</PreferenceScreen>
+			<PreferenceScreen android:key="app_graphics"
+                android:title="@string/preferences_app_graphics" >
+			    <Preference android:key="Rashed_Abdel-Tawab_graphics"
+			    	style="?android:preferenceInformationStyle"
+            		android:title="Rashed Abdel-Tawab" />
+			</PreferenceScreen>
+        </PreferenceScreen></PreferenceCategory>
 </PreferenceScreen>
